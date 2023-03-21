@@ -1,0 +1,19 @@
+.navBar {
+    border-bottom: var(--line);
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navBar .navItem {
+    padding: 0.5rem 1.5rem;
+}
+
+.navBar .navItem:hover {
+    background: var(--titleBg);
+    color: white;
+}
+
+.navBar .navItem:active {
+    transform: scale(0.9);
+}

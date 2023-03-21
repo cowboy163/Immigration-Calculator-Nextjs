@@ -1,6 +1,6 @@
 {
   "name": "06-immigration-calculator-nextjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
     "next": "13.2.4",
+    "next-redux-wrapper": "^8.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-papaparse": "^4.1.0",
+    "react-redux": "^8.0.5"
   }
 }

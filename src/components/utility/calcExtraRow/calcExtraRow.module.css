@@ -1,0 +1,10 @@
+.calcExtraRow {
+    border-spacing: 0;
+    width: 100%;
+}
+
+.calcExtraRow .extraLine {
+    border-left: var(--border);
+    border-bottom: var(--border);
+    border-right: var(--border);
+}

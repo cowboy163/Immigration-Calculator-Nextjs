@@ -1,31 +1,24 @@
-## Learn More
+# Immigration Score Calculator
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- calculate the FSW & EE Score
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### 2. Technology Use
 
-## Technology Use
-
-- HTML5
-- CSS3
-- JavaScript
-- React/React hooks/Redux
+- React
+- Redux
 - Next.js
+- Module CSS
+- react-papaparse
 
-## Learn More
+### 3. Log
 
-To learn more about Next.js, take a look at the following resources:
+###### 2023/03/22 18:22pm
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- v0.0.2
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+

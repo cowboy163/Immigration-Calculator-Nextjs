@@ -1,0 +1,41 @@
+.mainCont {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bodyBg2);
+    border: var(--border);
+    border-spacing: 0;
+}
+
+.mainCont .styledRow {
+    width: 100%;
+}
+
+.mainCont .styledRow:nth-child(2n + 1) {
+    border: var(--border);
+    background: var(--bodyBg1);
+}
+
+.mainCont .styledRow th {
+    width: 100%;
+    padding: 1rem 0.5rem;
+    background: var(--titleBg);
+}
+
+.mainCont .styledRow .styledCol {
+    border: var(--border);
+}
+
+.mainCont .styledRow .styledCol:nth-child(1) {
+    width: 20%;
+    text-align: center;
+}
+
+.mainCont .styledRow .styledCol:nth-child(2) {
+    width: 70%;
+}
+
+.mainCont .styledRow .styledCol:nth-child(3) {
+    width: 10%;
+    text-align: center;
+}
+

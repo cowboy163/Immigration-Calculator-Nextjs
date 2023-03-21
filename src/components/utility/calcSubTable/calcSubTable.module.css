@@ -1,0 +1,21 @@
+.calcSubTable {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: calc(100% + 2px);
+    margin-left: -1px;
+}
+
+.calcSubTable .calcSubTableRow:first-child .calcSubTableCol {
+    border-top: none;
+}
+
+.calcSubTable .calcSubTableRow:last-child .calcSubTableCol {
+    border-bottom: none;
+}
+
+.calcSubTable .calcSubTableRow .calcSubTableCol {
+    border-top: var(--border);
+    border-right: var(--border);
+    border-bottom: var(--border);
+    padding: 0.6rem 0.3rem;
+}

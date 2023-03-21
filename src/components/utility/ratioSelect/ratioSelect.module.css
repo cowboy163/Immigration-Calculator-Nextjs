@@ -1,0 +1,11 @@
+.ratioSelect {
+    text-align: center;
+}
+
+.ratioSelect .radioSelectMain label {
+    margin-right: 2rem;
+}
+
+.ratioSelect .radioSelectMain label:last-child {
+    margin-right: 0;
+}
