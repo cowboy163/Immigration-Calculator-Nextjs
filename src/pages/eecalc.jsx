@@ -9,6 +9,7 @@ import getSumArray from "@/utility/getSumArray";
 import {changeSpouseChoice} from "@/features/eeSlice/eeSlicePartA";
 import {eePartBData} from "@/data/eeCalc/eePartBData";
 import {eePartCData} from "@/data/eeCalc/eePartCData";
+import {eePartDData} from "@/data/eeCalc/eePartDData";
 
 const EECalc = () => {
     const dispatch = useDispatch()
@@ -29,8 +30,7 @@ const EECalc = () => {
     const subScoreA = useSelector(state => state.eeCalcPartA.subScoreA)
     const subScoreB = useSelector(state => state.eeCalcPartB.subScoreB)
     const subScoreC = useSelector(state => state.eeCalcPartC.subScoreC)
-    // const subScoreD = useSelector(state => state.eeCalcPartD.subScoreD)
-
+    const subScoreD = useSelector(state => state.eeCalcPartD.subScoreD)
 
     // part A section score
     const [secScoreA, setSecScoreA] = useState("")
@@ -51,19 +51,19 @@ const EECalc = () => {
     }, [subScoreC])
 
     // part D section score
-    // const [secScoreD, setSecScoreD] = useState("")
-    // useEffect(() => {
-    //     setSecScoreD(getSumArray(subScoreD))
-    // }, [subScoreD])
+    const [secScoreD, setSecScoreD] = useState("")
+    useEffect(() => {
+        setSecScoreD(getSumArray(subScoreD))
+    }, [subScoreD])
 
     // total score
-    // const [totalScore, setTotalScore] = useState("")
-    // useEffect(() => {
-    //     if (secScoreA || secScoreB || secScoreD) {
-    //         let newArray = [secScoreA, secScoreB, secScoreC, secScoreD]
-    //         setTotalScore(String(getSumArray(newArray)))
-    //     }
-    // }, [secScoreA, secScoreB, secScoreC, secScoreD])
+    const [totalScore, setTotalScore] = useState("")
+    useEffect(() => {
+        if (secScoreA || secScoreB || secScoreD) {
+            let newArray = [secScoreA, secScoreB, secScoreC, secScoreD]
+            setTotalScore(String(getSumArray(newArray)))
+        }
+    }, [secScoreA, secScoreB, secScoreC, secScoreD])
 
     return (
         <Layout>
@@ -90,22 +90,22 @@ const EECalc = () => {
                         }
                     </div>
                     {/*Part C*/}
-                    <div className="eeCalcPage">
+                    <div className={styles.calcPage}>
                         <CalcTable data={eePartCData}
                                    secScore={secScoreC}
                                    subScore={subScoreC}
                         />
                     </div>
                     {/*Part D*/}
-                    {/*<div className="eeCalcPage">*/}
-                    {/*    <calcTable data={eePartDData}*/}
-                    {/*               secScore={secScoreD}*/}
-                    {/*               subScore={subScoreD}*/}
-                    {/*    />*/}
-                    {/*</div>*/}
-                    {/*<h1 className="totalScore">*/}
-                    {/*    您的EE分数为：{totalScore}*/}
-                    {/*</h1>*/}
+                    <div className={styles.calcPage}>
+                        <CalcTable data={eePartDData}
+                                   secScore={secScoreD}
+                                   subScore={subScoreD}
+                        />
+                    </div>
+                    <h1 className={styles.totalScore}>
+                        您的EE分数为：{totalScore}
+                    </h1>
                 </div>
             </div>
         </Layout>

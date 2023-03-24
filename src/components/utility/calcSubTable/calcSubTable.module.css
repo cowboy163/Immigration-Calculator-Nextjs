@@ -19,3 +19,10 @@
     border-bottom: var(--border);
     padding: 0.6rem 0.3rem;
 }
+
+@media (min-width: 1000px) {
+    .calcSubTable {
+        width: calc(100% + 0.2rem);
+        margin-left: -0.1rem;
+    }
+}
