@@ -12,6 +12,10 @@ const headerData = [
         link: "/eecalc"
     },
     {
+        text: "More Beautiful Component",
+        link: "/beautiful",
+    },
+    {
         text: "Test Page",
         link: "/test"
     },
