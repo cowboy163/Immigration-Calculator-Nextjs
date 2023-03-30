@@ -1,0 +1,18 @@
+.calcStepper {
+    padding: 3rem;
+}
+
+.beautifulMain {
+    display: flex;
+    justify-content: center;
+}
+
+.bottomBtnOut {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.bottomBtnOut .bottomBtnIn {
+    width: 20%;
+}

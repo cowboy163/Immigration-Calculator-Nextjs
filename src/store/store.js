@@ -5,6 +5,8 @@ import eeCalcPartBReducer from '@/features/eeSlice/eeSlicePartB'
 import eeCalcPartCReducer from '@/features/eeSlice/eeSlicePartC'
 import eeCalcPartDReducer from '@/features/eeSlice/eeSlicePartD'
 import fswCalcReducer from '@/features/fswSlice/fswSlice'
+import beautifulStep1 from '@/features/beautifulSlice/step1Slice'
+import beautifulStep from '@/features/beautifulSlice/stepSlice'
 
 const makeStore = () =>
     configureStore({
@@ -14,6 +16,8 @@ const makeStore = () =>
             eeCalcPartB: eeCalcPartBReducer,
             eeCalcPartC: eeCalcPartCReducer,
             eeCalcPartD: eeCalcPartDReducer,
+            beautifulStep1,
+            beautifulStep,
         },
     })
 

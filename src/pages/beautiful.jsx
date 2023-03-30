@@ -1,18 +1,28 @@
 import Layout from "@/components/layout/layout";
 import Head from "next/head";
-import {Button, MobileStepper, useTheme} from "@mui/material";
+import CalcStepper from "@/components/stepper/stepper";
+import {useEffect, useState} from "react";
+import beautifulData from "@/data/beautiful/beautifulData";
+import {Button} from "@mui/material";
+import styles from '@/styles/beautiful.module.css'
+import {useSelector} from "react-redux";
 
 const Beautiful = () => {
-    const theme = useTheme();
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0)
+    const [buttonText, setButtonText] = useState("下一步")
+    const disableBtn = useSelector(state => state.beautifulStep.disableBtn)
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
+    const handleClick = () => {
+        if(activeStep < beautifulData.length - 1) {
+            setActiveStep(activeStep + 1)
+        }
+    }
+    useEffect(() => {
+        if(activeStep === beautifulData.length - 1) {
+            setButtonText("完成")
+        }
+    }, [activeStep])
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
     return(
         <Layout>
             <Head>
@@ -20,33 +30,27 @@ const Beautiful = () => {
                 <meta name="description" content="Calculate FSW score" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
-            <MobileStepper
-                variant="progress"
-                steps={6}
-                position="static"
-                activeStep={activeStep}
-                sx={{ maxWidth: 400, flexGrow: 1 }}
-                nextButton={
-                    <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
-                        Next
-                        {theme.direction === 'rtl' ? (
-                            <KeyboardArrowLeft />
-                        ) : (
-                            <KeyboardArrowRight />
-                        )}
-                    </Button>
-                }
-                backButton={
-                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                        {theme.direction === 'rtl' ? (
-                            <KeyboardArrowRight />
-                        ) : (
-                            <KeyboardArrowLeft />
-                        )}
-                        Back
-                    </Button>
-                }
-            />
+            <div className="container">
+                <div className={styles.calcStepper}>
+                    <CalcStepper numOfSteps={beautifulData.length} activeStep={activeStep}/>
+                </div>
+                <div className={styles.beautifulMain}>
+                    {
+                        beautifulData[activeStep]()
+                    }
+                </div>
+                <div className={styles.bottomBtnOut}>
+                    <div className={styles.bottomBtnIn}>
+                        <Button variant="contained"
+                                onClick={() => handleClick()}
+                                fullWidth={true}
+                                disabled={disableBtn}
+                        >
+                            {buttonText}
+                        </Button>
+                    </div>
+                </div>
+            </div>
         </Layout>
     )
 }
