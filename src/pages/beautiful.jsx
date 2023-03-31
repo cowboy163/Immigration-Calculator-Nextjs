@@ -5,12 +5,11 @@ import {useEffect, useState} from "react";
 import beautifulData from "@/data/beautiful/beautifulData";
 import {Button} from "@mui/material";
 import styles from '@/styles/beautiful.module.css'
-import {useSelector} from "react-redux";
+import beautifulValidation from "@/views/beautiful/beautifulValidation";
 
 const Beautiful = () => {
     const [activeStep, setActiveStep] = useState(0)
     const [buttonText, setButtonText] = useState("下一步")
-    const disableBtn = useSelector(state => state.beautifulStep.disableBtn)
 
     const handleClick = () => {
         if(activeStep < beautifulData.length - 1) {
@@ -35,16 +34,18 @@ const Beautiful = () => {
                     <CalcStepper numOfSteps={beautifulData.length} activeStep={activeStep}/>
                 </div>
                 <div className={styles.beautifulMain}>
-                    {
-                        beautifulData[activeStep]()
-                    }
+                    <div className={styles.content}>
+                        {
+                            beautifulData[activeStep]()
+                        }
+                    </div>
                 </div>
                 <div className={styles.bottomBtnOut}>
                     <div className={styles.bottomBtnIn}>
                         <Button variant="contained"
                                 onClick={() => handleClick()}
                                 fullWidth={true}
-                                disabled={disableBtn}
+                                disabled={!beautifulValidation(activeStep)}
                         >
                             {buttonText}
                         </Button>

@@ -1,6 +1,4 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {useDispatch} from "react-redux";
-import {changeDisableBtn} from "@/features/beautifulSlice/stepSlice";
 
 const step1Slice = createSlice({
     name: "step1",

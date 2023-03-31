@@ -3,8 +3,6 @@ import styles from "./step1.module.css"
 import {NOT_SINGLE, SINGLE} from "@/consts/consts";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSingle} from "@/features/beautifulSlice/step1Slice";
-import {useEffect} from "react";
-import {changeDisableBtn, initiateBtn} from "@/features/beautifulSlice/stepSlice";
 
 const Step1 = () => {
     const dispatch = useDispatch()
@@ -12,16 +10,6 @@ const Step1 = () => {
     const handleClick = value => {
         dispatch(changeSingle(value))
     }
-
-    useEffect(() => {
-        dispatch(initiateBtn())
-    }, [dispatch])
-
-    useEffect(() => {
-        if(single) {
-            dispatch(changeDisableBtn())
-        }
-    }, [single])
 
     return(
         <section>

@@ -7,6 +7,10 @@
     justify-content: center;
 }
 
+.beautifulMain .content {
+    width: 60%;
+}
+
 .bottomBtnOut {
     display: flex;
     justify-content: center;
