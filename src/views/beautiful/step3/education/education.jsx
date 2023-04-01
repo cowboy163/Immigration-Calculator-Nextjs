@@ -1,6 +1,6 @@
 import {Button, Grid, InputLabel, Paper, styled} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {changeEducation} from "@/features/beautifulSlice/step2Slice";
+import {changeEducation} from "@/features/beautifulSlice/step3Slice";
 
 const options = ["高中以下", "高中", "1年大专", "2年大专", "3年以上大专或本科", "双专业（3 + 1年以上）", "硕士学位或专业学位", "博士学位"]
 export const StyledButton = styled(Button)(({theme, selected}) => ({
@@ -18,10 +18,9 @@ export const StyledButton = styled(Button)(({theme, selected}) => ({
     },
 }))
 
-
 const BeautifulEducation = () => {
     const dispatch = useDispatch()
-    const selectedValue = useSelector(state => state.beautifulStep2.education)
+    const selectedValue = useSelector(state => state.beautifulStep3.education)
     const handleChange = value => {
         dispatch(changeEducation(String(value)))
     }
@@ -31,7 +30,7 @@ const BeautifulEducation = () => {
                style={{padding: "1rem", margin: "1rem 0"}}
         >
             <InputLabel style={{color: "#1975d1", marginBottom: "0.5rem"}}>
-                学历
+                配偶学历
             </InputLabel>
             <Grid container
                   spacing={2}
@@ -56,8 +55,6 @@ const BeautifulEducation = () => {
                     )
                 }
             </Grid>
-
-
         </Paper>
 
     )

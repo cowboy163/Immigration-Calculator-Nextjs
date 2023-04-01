@@ -1,6 +1,6 @@
-import {TextField} from "@mui/material";
+import {InputAdornment, TextField} from "@mui/material";
 
-const BeautifulTextField = ({value, handleChange, placeholder}) => {
+const BeautifulTextField = ({value, handleChange, placeholder, inputAdornment}) => {
     return(
         <TextField
             hiddenLabel={true}
@@ -14,7 +14,8 @@ const BeautifulTextField = ({value, handleChange, placeholder}) => {
                     padding: "0.2rem 0.5rem",
                     borderRadius: "0.3rem",
                 },
-                disableUnderline: true
+                disableUnderline: true,
+                endAdornment: <InputAdornment position="end">{inputAdornment && inputAdornment}</InputAdornment>,
             }}
             placeholder={placeholder}
             fullWidth={true}

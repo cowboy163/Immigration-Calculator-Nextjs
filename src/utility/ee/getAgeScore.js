@@ -9,7 +9,7 @@ const getAgeScoreForEE = async (val, ruleLocation, spouse) => {
         let arrs = data.data
         let name = Object.keys(arrs[0])
         let index = getAgeIndex(arrs, val)
-        if(index) {
+        if(index || index === 0) {
             if(spouse === "yes") {
                 return arrs[index][name[1]]
             }

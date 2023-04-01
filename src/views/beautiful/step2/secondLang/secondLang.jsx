@@ -1,9 +1,15 @@
 import {Grid, InputLabel, Paper} from "@mui/material";
 import {StyledButton} from "@/views/beautiful/step2/education/education";
 import {useDispatch, useSelector} from "react-redux";
-import {changeFirstLangTest, changeFirstLangTestScore} from "@/features/beautifulSlice/step2Slice";
+import {
+    changeSecondLangTest, changeSecondLangTestScore
+} from "@/features/beautifulSlice/step2Slice";
 import BeautifulTextField from "@/components/beautiful/textField";
 const options = [
+    {
+        text: "无",
+        value: "null",
+    },
     {
         text: '雅思',
         value: 'ielts',
@@ -23,21 +29,21 @@ const options = [
 ]
 const tests = ["阅读", "写作", "听力", "口语"]
 
-const FirstLang = () => {
+const SecondLang = () => {
     const dispatch = useDispatch()
-    const firstLang = useSelector(state => state.beautifulStep2.firstLang)
+    const secondLang = useSelector(state => state.beautifulStep2.secondLang)
 
     // test option
-    const selectedValue = firstLang.test
+    const selectedValue = secondLang.test
     const handleClick = value => {
-        dispatch(changeFirstLangTest(value))
+        dispatch(changeSecondLangTest(value))
     }
 
     // test score
-    const testScore = firstLang.testScore
+    const testScore = secondLang.testScore
     const handleChange = (value, index) => {
-        if(firstLang.test) {
-            dispatch(changeFirstLangTestScore([value, index]))
+        if(secondLang.test && secondLang.test !== "null") {
+            dispatch(changeSecondLangTestScore([value, index]))
         }
     }
 
@@ -46,9 +52,9 @@ const FirstLang = () => {
                style={{padding: "1rem", margin: "1rem 0"}}
         >
             <InputLabel style={{color: "#1975d1", marginBottom: "0.1rem"}}>
-                第一语言
+                第二语言
             </InputLabel>
-            <p style={{marginBottom: "0.7rem"}}>选择您所参加过的语言考试或培训</p>
+            <p style={{marginBottom: "0.7rem"}}>如果您第一语言选择了英语考试，第二语言请选择法语考试，反之亦然</p>
 
             <Grid container
                   spacing={2}
@@ -58,8 +64,8 @@ const FirstLang = () => {
                     options.map((option, index) => (
                         <Grid item
                               xs={12}
-                              sm={3}
-                              md={3}
+                              sm={2.4}
+                              md={2.4}
                               key={index}
                         >
                             <StyledButton variant={selectedValue === option.value? 'contained' : 'outlined'}
@@ -93,7 +99,7 @@ const FirstLang = () => {
                         >
                             <BeautifulTextField value={testScore[index]}
                                                 handleChange={evt => handleChange(evt.target.value, index)}
-                                                placeholder='输入分数'
+                                                placeholder={secondLang.test === "null"? '0' : '输入分数'}
                             />
                         </Grid>
                     </Grid>
@@ -103,4 +109,4 @@ const FirstLang = () => {
         </Paper>
     )
 }
-export default FirstLang
+export default SecondLang
