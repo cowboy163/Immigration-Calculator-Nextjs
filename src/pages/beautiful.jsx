@@ -11,7 +11,7 @@ import calculateScore from "@/utility/beautiful/calculateScore";
 import {SINGLE} from "@/consts/consts";
 
 const Beautiful = () => {
-    const [activeStep, setActiveStep] = useState(2)
+    const [activeStep, setActiveStep] = useState(1)
     const [buttonText, setButtonText] = useState("下一步")
     const [length, setLength] = useState(beautifulData[1].length)
     const validateStep = useBeautifulValidation(activeStep)

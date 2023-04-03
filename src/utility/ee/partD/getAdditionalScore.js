@@ -25,7 +25,7 @@ const getAdditionalScore = (val, startIndex) => {
                 if (index >= 0) {
                     val[1].forEach(item => {
                         if (+item < 5) {
-                            index = index - 1
+                            index = startIndex - 1
                         }
                     })
                     score = rules[index][name[1]]

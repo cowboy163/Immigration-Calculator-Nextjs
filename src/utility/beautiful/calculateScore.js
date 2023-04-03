@@ -2,6 +2,14 @@ import getAgeScore from "@/utility/ee/getAgeScore";
 import {NOT_SINGLE} from "@/consts/consts";
 import getEducationScore from "@/utility/ee/getEducationScore";
 import getLanguageScore from "@/utility/ee/getLanguageScore";
+import getRuleLocation from "@/utility/getRuleLocation";
+import getCLB from "@/utility/getCLB";
+import specialCalcLine1 from "@/utility/ee/partC/specialCalcLine1";
+import specialCalcLine2 from "@/utility/ee/partC/specialCalcLine2";
+import specialCalcLine3 from "@/utility/ee/partC/specialCalcLine3";
+import specialCalcLine4 from "@/utility/ee/partC/specialCalcLine4";
+import specialCalcLine5 from "@/utility/ee/partC/specialCalcLine5";
+import getAdditionalScore from "@/utility/ee/partD/getAdditionalScore";
 
 const calculateScore = async (step1, step2, step3, step4) => {
     // console.log('step1', step1)
@@ -65,10 +73,126 @@ const calculateScore = async (step1, step2, step3, step4) => {
         const seRuleLocation = '/csv/EE/spouse/education.csv'
         totalScore += await getEducationScore(spouseEducation, seRuleLocation, spouse)
             .then(score => {
-                console.log('spouse education score ===>', score)
+                return +score
+            })
+
+        // applicant's spouse language score
+        const slRuleLocation = '/csv/EE/spouse/language.csv'
+        const spouseLang = step3.firstLang
+        if(spouseLang.test !== "null") {
+            totalScore += await  getLanguageScore(spouseLang, spouse, slRuleLocation)
+                .then(score => {
+                    return +score
+                })
+        }
+
+        // applicant's spouse work experience in CA score
+        const seInCA = +step3.exInCA > 5 ? 5 : step3.exInCA
+        const seInCaRuleLocation = '/csv/EE/spouse/experience.csv'
+        if (+seInCA > 0) {
+            totalScore += await getEducationScore(seInCA, seInCaRuleLocation, spouse)
+                .then(score => {
+                    return +score
+                })
+        }
+    }
+
+    // step4 score
+    // education + language
+    let firstLangClb = []
+    let secondLangClb = []
+    // get clb score for languages
+    if(step2.firstLang.test) {
+        const dir = ['EE', 'language', step2.firstLang.test]
+        const ruleLocation = getRuleLocation(dir)
+        firstLangClb = await getCLB(step2.firstLang, ruleLocation)
+            .then(clb => {
+                return clb
+            })
+        const newRuleLocation = '/csv/EE/partC/education1.csv'
+        if(step2.education) {
+            totalScore += await specialCalcLine1(step2.education, firstLangClb, newRuleLocation)
+                .then(score => {
+                    return +score
+                })
+        }
+    }
+    if(step2.secondLang.test && step2.secondLang.test !== "null") {
+        const dir = ['EE', 'language', step2.secondLang.test]
+        const ruleLocation = getRuleLocation(dir)
+        secondLangClb = await getCLB(step2.secondLang, ruleLocation)
+            .then(clb => {
+                return clb
+            })
+    }
+    // education + work experience in Canada
+    if(step2.education) {
+        const ruleLocation = '/csv/EE/partC/education2.csv'
+        totalScore += await specialCalcLine2(step2.education, step2.exInCA, ruleLocation)
+            .then(score => {
                 return +score
             })
     }
+
+    // work experience outside Canada + language
+    if(step2.exOutCA && step2.exOutCA !== "0") {
+        const ruleLocation = '/csv/EE/partC/experience1.csv'
+        const exOutCA = +step2.exOutCA > 2 ? 2 : 1
+        totalScore += await specialCalcLine3(exOutCA, firstLangClb, ruleLocation)
+            .then(score => {
+                return +score
+            })
+
+        // work experience outside Canada + work experience inside Canada
+        const newRuleLocation = '/csv/EE/partC/experience2.csv'
+        totalScore += await specialCalcLine4(exOutCA, step2.exInCA, newRuleLocation)
+            .then(score => {
+                return +score
+            })
+    }
+
+    // certificate and language
+    if(step2.certification === "yes") {
+        const ruleLocation = '/csv/EE/partC/certificate.csv'
+        totalScore += await specialCalcLine5(step2.certification, firstLangClb, ruleLocation)
+            .then(score => {
+                return +score
+            })
+    }
+
+    // relative
+    if(step4.relative === "yes") {
+        const startIndex = 0
+        totalScore += await getAdditionalScore(step4.relative, startIndex)
+            .then(score => {
+                console.log('score check ', score)
+                return +score
+            })
+    }
+
+    // language
+    if(step2.firstLang.test.charAt(0) === 't' || step2.secondLang.test.charAt(0) === 't') {
+        let val = [firstLangClb, secondLangClb]
+        if(step2.secondLang.test.charAt(0) === 't') {
+            val = [secondLangClb, firstLangClb]
+        }
+        const startIndex = 2
+        totalScore += await getAdditionalScore(val, startIndex)
+            .then(score => {
+                console.log('score check ', score)
+                return +score
+            })
+    }
+
+    // education in Canada
+
+    // sponsorship
+
+    // PNP
+
+
+
+
 
 
     console.log('total score check ===> ', totalScore)
