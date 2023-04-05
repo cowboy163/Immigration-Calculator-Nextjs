@@ -242,6 +242,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.3.0.tgz#ea89004119dc42db2e1dba0f97d553f7372f6fcb"
   integrity sha512-AHPmaAx+RYfZz0eYu6Gviiagpmiyw98ySSlQvCUhVGDRtDFe4DBS0x1bSjdF3gqUDYOczB+yYvBTtEylYSdRhg==
 
+"@formkit/auto-animate@^1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@formkit/auto-animate/-/auto-animate-1.0.0-beta.6.tgz#ed7f8bc47d774a7764756646e9e3432e8be51cb3"
+  integrity sha512-PVDhLAlr+B4Xb7e+1wozBUWmXa6BFU8xUPR/W/E+TsQhPS1qkAdAsJ25keEnFrcePSnXHrOsh3tiFbEToOzV9w==
+
 "@jridgewell/gen-mapping@^0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.2.tgz#c1aedc61e853f2bb9f5dfe6d4442d3b565b253b9"
@@ -345,6 +350,16 @@
     csstype "^3.1.1"
     prop-types "^15.8.1"
 
+"@mui/styled-engine@^5.11.16":
+  version "5.11.16"
+  resolved "https://registry.yarnpkg.com/@mui/styled-engine/-/styled-engine-5.11.16.tgz#8d107b4ade583b53f6be832e0041261c77cd0d79"
+  integrity sha512-8dJRR/LqtGGaZN21p1vU9euwrKERlgtQIWyuzBKZ8/cuSlW5rIzlp46liP+Uh0+7d9NcHU0H4hBMoPt3ax64PA==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@emotion/cache" "^11.10.5"
+    csstype "^3.1.2"
+    prop-types "^15.8.1"
+
 "@mui/system@^5.11.15":
   version "5.11.15"
   resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.11.15.tgz#075fa6aef5ec765ea9573bf654049cf72066364d"
@@ -357,6 +372,20 @@
     "@mui/utils" "^5.11.13"
     clsx "^1.2.1"
     csstype "^3.1.1"
+    prop-types "^15.8.1"
+
+"@mui/system@^5.11.16":
+  version "5.11.16"
+  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.11.16.tgz#8847f790a76c503ea4907854982fc2b1734e0bb4"
+  integrity sha512-JY7CNm7ik2Gr4kQpz1+C9N/f4ET3QjVBo/iaHcmlSOgjdxnOzFbv+vCdb1DMzBGew+UbqckppZpZwbgbrBE2Rw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@mui/private-theming" "^5.11.13"
+    "@mui/styled-engine" "^5.11.16"
+    "@mui/types" "^7.2.3"
+    "@mui/utils" "^5.11.13"
+    clsx "^1.2.1"
+    csstype "^3.1.2"
     prop-types "^15.8.1"
 
 "@mui/types@^7.2.3":
@@ -642,6 +671,11 @@ csstype@^3.0.2, csstype@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
+
+csstype@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
+  integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
 debug@^4.1.0:
   version "4.3.4"

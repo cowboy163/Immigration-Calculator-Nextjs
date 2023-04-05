@@ -9,6 +9,7 @@ import beautifulStep1 from '@/features/beautifulSlice/step1Slice'
 import beautifulStep2 from '@/features/beautifulSlice/step2Slice'
 import beautifulStep3 from '@/features/beautifulSlice/step3Slice'
 import beautifulStep4 from '@/features/beautifulSlice/step4Slice'
+import beautifulStepper from '@/features/beautifulSlice/stepperSlice'
 
 const makeStore = () =>
     configureStore({
@@ -22,6 +23,7 @@ const makeStore = () =>
             beautifulStep2,
             beautifulStep3,
             beautifulStep4,
+            beautifulStepper,
         },
     })
 

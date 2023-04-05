@@ -3,7 +3,7 @@
  * @params {number} numOfSteps - the numbers of steps
  * @params {number} activeStep - the current step index
  */
-import {Box, Step, StepLabel, Stepper} from "@mui/material";
+import {Step, StepLabel, Stepper} from "@mui/material";
 import * as React from "react";
 import getEmptyArray from "@/utility/getEmptyArray";
 

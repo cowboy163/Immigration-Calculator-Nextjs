@@ -4,21 +4,56 @@ import FirstLang from "@/views/beautiful/step2/firstLang/firstLang";
 import SecondLang from "@/views/beautiful/step2/secondLang/secondLang";
 import BeautifulExperience from "@/views/beautiful/step2/experience/experience";
 import BeautifulCertification from "@/views/beautiful/step2/certification/certification";
+import BottomBtns from "@/views/beautiful/bottomBtns";
+import {useForm} from "react-hook-form";
 
 const Step2 = () => {
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: {errors},
+    } = useForm()
 
+    const handleErrorSubmit = () => {
+        scrollToFirstError()
+    }
+    const scrollToFirstError = () => {
+        const firstErrorElement = document.querySelector('.Mui-error');
+        if (firstErrorElement) {
+            firstErrorElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+        }
+    }
+    const onSubmit = () => {
+        console.log('submit')
+    }
     return (
         <section>
-            <h3>核心/人力资本因素</h3>
-            <h3>Core/human capital factors</h3>
-            <p>为了能够获得更准确的分数请认真完整的填写以下信息</p>
-            <br/>
-            <BeautifulAge/>
-            <BeautifulEducation/>
-            <FirstLang/>
-            <SecondLang/>
-            <BeautifulExperience/>
-            <BeautifulCertification/>
+            <form onSubmit={handleSubmit(onSubmit, handleErrorSubmit)}>
+                <h3>核心/人力资本因素</h3>
+                <h3>Core/human capital factors</h3>
+                <p>为了能够获得更准确的分数请认真完整的填写以下信息</p>
+                <br/>
+                <BeautifulAge
+                    register={register}
+                    errors={errors}
+                />
+                <BeautifulEducation
+                    register={register}
+                    errors={errors}
+                    setValue={setValue}
+                />
+                <FirstLang
+                    register={register}
+                    errors={errors}
+                    setValue={setValue}
+                />
+                <SecondLang/>
+                <BeautifulExperience/>
+                <BeautifulCertification/>
+                <BottomBtns/>
+            </form>
+
         </section>
     )
 }

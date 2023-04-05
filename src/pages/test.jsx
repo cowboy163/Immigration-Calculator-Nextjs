@@ -1,6 +1,9 @@
 import Layout from "@/components/layout/layout";
 import Head from "next/head";
 import SamplePage from "@/components/samplePage/samplePage";
+import ColorToggleButton from "@/components/samplePage/colorToggleButton";
+import MuiRadio from "@/components/samplePage/muiRadio";
+import RadioButtonGrid from "@/components/samplePage/muiRadio";
 
 const Custom404 = () => {
     return(
@@ -10,9 +13,12 @@ const Custom404 = () => {
                 <meta name="description" content="Calculate immigration score" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
-            <SamplePage>
-                Test Page
-            </SamplePage>
+            {/*<SamplePage>*/}
+            {/*    Test Page                */}
+            {/*</SamplePage>*/}
+            <ColorToggleButton/>
+            <RadioButtonGrid/>
+
         </Layout>
     )
 }

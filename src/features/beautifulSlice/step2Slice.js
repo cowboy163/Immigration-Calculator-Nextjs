@@ -10,9 +10,21 @@ const step2Slice = createSlice({
             test: "",
             testScore: ["", "", "", ""],
         },
+        storedFirstLang: {
+            ielts: ["", "", "", ""],
+            celpip: ["", "", "", ""],
+            tef: ["", "", "", ""],
+            tcf: ["", "", "", ""],
+        },
         secondLang: {
             test: "null",
             testScore: ["", "", "", ""],
+        },
+        storedSecondLang: {
+            ielts: ["", "", "", ""],
+            celpip: ["", "", "", ""],
+            tef: ["", "", "", ""],
+            tcf: ["", "", "", ""],
         },
         exInCA: "",
         exOutCA: "",

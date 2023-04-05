@@ -45,7 +45,7 @@ const BeautifulPnp = () => {
                             <StyledButton variant={selectedValue === option.value? 'contained' : 'outlined'}
                                           onClick={() => handleClick(option.value)}
                                           selected={selectedValue === option.value}
-                                          fullWidth
+                                          // fullWidth
                             >
                                 {option.text}
                             </StyledButton>

@@ -1,51 +1,80 @@
-import {Button} from "@mui/material";
 import styles from "./step1.module.css"
 import {NOT_SINGLE, SINGLE} from "@/consts/consts";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSingle} from "@/features/beautifulSlice/step1Slice";
+import {useForm} from "react-hook-form";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import ToggleButton from "@mui/material/ToggleButton";
+import BeautifulError from "@/components/beautiful/error";
+import useHandleNext from "@/views/beautiful/handleNext";
+import BottomBtns from "@/views/beautiful/bottomBtns";
+import {useEffect} from "react";
+import {StyledButton} from "@/views/beautiful/step2/education/education";
 
 const Step1 = () => {
     const dispatch = useDispatch()
     const single = useSelector(state => state.beautifulStep1.single)
+    const handleNext = useHandleNext()
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: {errors},
+    } = useForm()
+
     const handleClick = value => {
         dispatch(changeSingle(value))
+        errors.choice = undefined
     }
 
-    return(
+    const onSubmit = () => {
+        handleNext()
+    }
+
+    useEffect(() => {
+        setValue("choice", single)
+    }, [single])
+
+    return (
         <section>
-            <h3>请问您目前的状态是？</h3>
-            <p>单身和已婚人士打分的规则会有所不同</p>
-            <div className={styles.buttonAreaOut}>
-                <div onClick={evt => handleClick(evt.target.value)}
-                     className={styles.buttonAreaIn}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <h3>请问您目前的状态是？</h3>
+                <p>单身和已婚人士打分的规则会有所不同</p>
+                <input type='hidden'
+                       {...register('choice', {required: "请选择一个选项"})}
+                />
+                <div className={styles.buttonAreaOut}
                 >
-                    <div className={styles.btn}>
-                        <Button variant={single === String(NOT_SINGLE)? 'contained' : 'outlined'}
-                                color="primary"
+                    <div
+                        className={styles.buttonAreaIn}
+                        onClick={evt => handleClick(evt.target.value)}
+                    >
+                        <div className={styles.btn}>
+                            <StyledButton
+                                variant={single === NOT_SINGLE? 'contained' : 'outlined'}
                                 value={NOT_SINGLE}
-                                sx={{
-                                    bgcolor: single === String(NOT_SINGLE)? '#2196f3' : 'transparent'
-                                }}
-                                fullWidth={true}
-                        >
-                            已婚或有伴侣
-                        </Button>
-                    </div>
-                    <div className={styles.btn}>
-                        <Button variant={single === String(SINGLE)? 'contained' : 'outlined'}
-                                color="primary"
+                                selected={single === NOT_SINGLE}
+                                fullWidth
+                            >
+                                已婚或有伴侣
+                            </StyledButton>
+                        </div>
+                        <div className={styles.btn}>
+                            <StyledButton
+                                variant={single === SINGLE? 'contained' : 'outlined'}
                                 value={SINGLE}
-                                sx={{
-                                    bgcolor: single === String(SINGLE)? '#2196f3' : 'transparent'
-                                }}
-                                fullWidth={true}
-                        >
-                            单身
-                        </Button>
+                                selected={single === SINGLE}
+                                fullWidth
+                            >
+                                单身
+                            </StyledButton>
+                        </div>
+                        {errors.choice && <BeautifulError text={errors.choice.message}/>}
                     </div>
                 </div>
-            </div>
 
+                <BottomBtns/>
+            </form>
         </section>
     )
 }

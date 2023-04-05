@@ -12,10 +12,6 @@ import specialCalcLine5 from "@/utility/ee/partC/specialCalcLine5";
 import getAdditionalScore from "@/utility/ee/partD/getAdditionalScore";
 
 const calculateScore = async (step1, step2, step3, step4) => {
-    // console.log('step1', step1)
-    // console.log('step2', step2)
-    // console.log('step3', step3)
-    // console.log('step4', step4)
     let totalScore = 0
 
     // applicant age score
@@ -25,18 +21,26 @@ const calculateScore = async (step1, step2, step3, step4) => {
     if (step1.single === String(NOT_SINGLE)) {
         spouse = "yes"
     }
-    totalScore += await getAgeScore(age, ageRuleLocation, spouse)
-        .then(score => {
-            return +score
-        })
+    if(age) {
+        totalScore += await getAgeScore(age, ageRuleLocation, spouse)
+            .then(score => {
+                return +score
+            })
+    } else {
+        console.log("error, missing age")
+    }
 
     // applicant education score
     const educationRuleLocation = 'csv/EE/education.csv'
     const education = step2.education
-    totalScore += await getEducationScore(education, educationRuleLocation, spouse)
-        .then(score => {
-            return +score
-        })
+    if(education) {
+        totalScore += await getEducationScore(education, educationRuleLocation, spouse)
+            .then(score => {
+                return +score
+            })
+    } else {
+        console.log('error, missing education')
+    }
 
     // applicant first language score
     const firstLang = step2.firstLang
@@ -45,6 +49,8 @@ const calculateScore = async (step1, step2, step3, step4) => {
             .then(score => {
                 return +score
             })
+    } else {
+        console.log("error, missing first language")
     }
 
     // applicant second language score
@@ -71,10 +77,15 @@ const calculateScore = async (step1, step2, step3, step4) => {
         // applicant's spouse education score
         const spouseEducation = step3.education
         const seRuleLocation = '/csv/EE/spouse/education.csv'
-        totalScore += await getEducationScore(spouseEducation, seRuleLocation, spouse)
-            .then(score => {
-                return +score
-            })
+        if(spouseEducation) {
+            totalScore += await getEducationScore(spouseEducation, seRuleLocation, spouse)
+                .then(score => {
+                    return +score
+                })
+        } else {
+            console.log('error, missing spouse education')
+        }
+
 
         // applicant's spouse language score
         const slRuleLocation = '/csv/EE/spouse/language.csv'
@@ -165,9 +176,10 @@ const calculateScore = async (step1, step2, step3, step4) => {
         const startIndex = 0
         totalScore += await getAdditionalScore(step4.relative, startIndex)
             .then(score => {
-                console.log('score check ', score)
                 return +score
             })
+    } else if(step4.relative !== "no") {
+        console.log("error, missing relatives")
     }
 
     // language
@@ -179,22 +191,50 @@ const calculateScore = async (step1, step2, step3, step4) => {
         const startIndex = 2
         totalScore += await getAdditionalScore(val, startIndex)
             .then(score => {
-                console.log('score check ', score)
                 return +score
             })
     }
 
     // education in Canada
+    if(step4.education && step4.education !== "2") {
+        let education = "1"
+        if(step4.education === "0") {
+            education = "2"
+        }
+        const startIndex = 3
+        totalScore += await getAdditionalScore(education, startIndex)
+            .then(score => {
+                return +score
+            })
+    } else if(!step4.education) {
+        console.log("error, missing education in Canada")
+    }
 
     // sponsorship
+    if(step4.sponsorship && step4.sponsorship !== "2") {
+        const startIndex = 6
+        let sponsorship = "1"
+        if(step4.sponsorship === "0") {
+            sponsorship = "2"
+        }
+        totalScore += await getAdditionalScore(sponsorship, startIndex)
+            .then(score => {
+                return +score
+            })
+    } else if (!step4.sponsorship) {
+        console.log("error, missing employee sponsorship")
+    }
 
     // PNP
-
-
-
-
-
-
-    console.log('total score check ===> ', totalScore)
+    if(step4.pnp && step4.pnp !== "no") {
+        const startIndex = 7
+        totalScore += await getAdditionalScore(step4.pnp, startIndex)
+            .then(score => {
+                return +score
+            })
+    } else if (!step4.pnp) {
+        console.log("error, missing Provincial Nominee Selection")
+    }
+    return totalScore
 }
 export default calculateScore

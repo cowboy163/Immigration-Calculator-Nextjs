@@ -1,14 +1,18 @@
 .buttonAreaOut {
     display: flex;
     justify-content: center;
-    padding-top: 2rem;
+    padding-top: 2.5rem;
 }
 
 .buttonAreaOut .buttonAreaIn {
+    min-height: 10rem;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
 .buttonAreaOut .buttonAreaIn .btn {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .buttonAreaOut .buttonAreaIn .btn:last-child {
