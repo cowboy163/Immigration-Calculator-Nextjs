@@ -16,8 +16,11 @@ const step2Slice = createSlice({
             tef: ["", "", "", ""],
             tcf: ["", "", "", ""],
         },
+        secondLangChoice: "no",
         secondLang: {
-            test: "null",
+            test: "",
+            enTest: "",
+            frTest: "",
             testScore: ["", "", "", ""],
         },
         storedSecondLang: {
@@ -28,7 +31,7 @@ const step2Slice = createSlice({
         },
         exInCA: "",
         exOutCA: "",
-        certification: "",
+        certification: "no",
     },
     reducers: {
         changeAge: (state, action) => {
@@ -42,8 +45,21 @@ const step2Slice = createSlice({
             state.education = action.payload
         },
         changeFirstLangTest: (state, action) => {
-            state.firstLang.test = action.payload
-            state.firstLang.testScore = ["", "", "", ""]
+            const testName = action.payload
+            state.firstLang.test = testName
+            const score = [...state.storedFirstLang[`${testName}`]]
+            state.firstLang.testScore = score
+            // English or French
+            if(testName.charAt(0) === 't') {
+                state.secondLang.test = state.secondLang.enTest
+            } else {
+                state.secondLang.test = state.secondLang.frTest
+            }
+            // second lang score
+            if(state.secondLang.test) {
+                const secScore = [...state.storedSecondLang[`${state.secondLang.test}`]]
+                state.secondLang.testScore = secScore
+            }
         },
         changeFirstLangTestScore: (state, action) => {
             const value = numInputAndDot(action.payload[0], 3)
@@ -51,8 +67,15 @@ const step2Slice = createSlice({
             state.firstLang.testScore[index] = value
         },
         changeSecondLangTest: (state, action) => {
-            state.secondLang.test = action.payload
-            state.secondLang.testScore = ["", "", "", ""]
+            const testName = action.payload
+            state.secondLang.test = testName
+            if(testName.charAt(0) === 't') {
+                state.secondLang.frTest = testName
+            } else {
+                state.secondLang.enTest = testName
+            }
+            const score = [...state.storedSecondLang[`${testName}`]]
+            state.secondLang.testScore = score
         },
         changeSecondLangTestScore: (state, action) => {
             const value = numInputAndDot(action.payload[0], 3)
@@ -68,6 +91,19 @@ const step2Slice = createSlice({
         changeCertification: (state, action) => {
             state.certification = action.payload
         },
+        setStoredFirstLang: (state, action) => {
+            const testName = state.firstLang.test
+            const testScore = [...state.firstLang.testScore]
+            state.storedFirstLang[`${testName}`] = [...testScore]
+        },
+        setSecondLangChoice: (state, action) => {
+            state.secondLangChoice = action.payload
+        },
+        setStoredSecondLang: (state, action) => {
+            const testName = state.secondLang.test
+            const testScore = [...state.secondLang.testScore]
+            state.storedSecondLang[`${testName}`] = [...testScore]
+        },
     }
 })
 
@@ -81,6 +117,9 @@ export const {
     changeExInCA,
     changeExOutCA,
     changeCertification,
+    setStoredFirstLang,
+    setSecondLangChoice,
+    setStoredSecondLang,
 } = step2Slice.actions
 
 export default step2Slice.reducer

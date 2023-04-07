@@ -6,6 +6,10 @@ import BeautifulExperience from "@/views/beautiful/step2/experience/experience";
 import BeautifulCertification from "@/views/beautiful/step2/certification/certification";
 import BottomBtns from "@/views/beautiful/bottomBtns";
 import {useForm} from "react-hook-form";
+import SecondLangChoice from "@/views/beautiful/step2/secondLang/secondLangChoice";
+import {useSelector} from "react-redux";
+import useHandleNext from "@/views/beautiful/handleNext";
+import handleErrorSubmit from "@/views/beautiful/handleErrorSubmit";
 
 const Step2 = () => {
     const {
@@ -14,18 +18,11 @@ const Step2 = () => {
         setValue,
         formState: {errors},
     } = useForm()
+    const secLangFlag = useSelector(state => state.beautifulStep2.secondLangChoice)
+    const handleNext = useHandleNext()
 
-    const handleErrorSubmit = () => {
-        scrollToFirstError()
-    }
-    const scrollToFirstError = () => {
-        const firstErrorElement = document.querySelector('.Mui-error');
-        if (firstErrorElement) {
-            firstErrorElement.scrollIntoView({ behavior: 'auto', block: 'center' });
-        }
-    }
     const onSubmit = () => {
-        console.log('submit')
+        handleNext()
     }
     return (
         <section>
@@ -48,7 +45,15 @@ const Step2 = () => {
                     errors={errors}
                     setValue={setValue}
                 />
-                <SecondLang/>
+                <SecondLangChoice/>
+                {
+                    secLangFlag === "yes" &&
+                    <SecondLang
+                        register={register}
+                        errors={errors}
+                        setValue={setValue}
+                    />
+                }
                 <BeautifulExperience/>
                 <BeautifulCertification/>
                 <BottomBtns/>

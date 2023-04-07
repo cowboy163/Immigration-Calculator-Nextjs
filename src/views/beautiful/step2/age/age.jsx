@@ -1,6 +1,7 @@
-import {InputLabel, Paper, TextField} from "@mui/material";
+import {InputAdornment, InputLabel, Paper, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {changeAge} from "@/features/beautifulSlice/step2Slice";
+import ScorePad from "@/views/beautiful/scorePad";
 
 const BeautifulAge = ({register, errors}) => {
     const dispatch = useDispatch()
@@ -34,6 +35,7 @@ const BeautifulAge = ({register, errors}) => {
                                height: '2.2rem',
                                borderRadius: "0.3rem",
                            },
+                           endAdornment: <InputAdornment position="end"><ScorePad number={value}/></InputAdornment>,
                        }}
                        placeholder='请输入您的年龄'
                        fullWidth={true}

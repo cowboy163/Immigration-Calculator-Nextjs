@@ -1,7 +1,6 @@
 import {InputAdornment, TextField} from "@mui/material";
-import {forwardRef} from "react";
 
-const BeautifulTextField = forwardRef(({name, value, handleChange, placeholder, inputAdornment, error, helperText, register, required}, ref) => {
+const BeautifulTextField =({name, value, handleChange, placeholder, inputAdornment, error, helperText, inputProps}) => {
     return(
         <TextField
             name={name}
@@ -16,11 +15,8 @@ const BeautifulTextField = forwardRef(({name, value, handleChange, placeholder, 
                     borderRadius: "0.3rem",
                 },
                 endAdornment: <InputAdornment position="end">{inputAdornment && inputAdornment}</InputAdornment>,
-                inputProps: required && {
-                    ...register(name, {required: required})
-                }
+                inputProps: inputProps && inputProps,
             }}
-            // inputRef={ref}
             placeholder={placeholder}
             fullWidth={true}
             margin="dense"
@@ -28,5 +24,5 @@ const BeautifulTextField = forwardRef(({name, value, handleChange, placeholder, 
             helperText={helperText && helperText}
         />
     )
-})
+}
 export default BeautifulTextField

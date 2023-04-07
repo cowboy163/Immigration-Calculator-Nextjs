@@ -3,10 +3,10 @@ import {createSlice} from "@reduxjs/toolkit";
 const step4Slice = createSlice({
     name: "step4",
     initialState: {
-        pnp: "",
-        sponsorship: "",
-        education: "",
-        relative: "",
+        pnp: "no",
+        sponsorship: "2",
+        education: "2",
+        relative: "no",
     },
     reducers: {
         changePnp: (state, action) => {

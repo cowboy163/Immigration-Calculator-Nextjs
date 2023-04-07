@@ -19,7 +19,6 @@ const BottomBtns = () => {
             <div className={commonStyles.bottomBtnIn}>
                 <BeautifulButton
                     buttonType="submit"
-                    disabled={!next.flag}
                 >
                     {next.text}
                 </BeautifulButton>

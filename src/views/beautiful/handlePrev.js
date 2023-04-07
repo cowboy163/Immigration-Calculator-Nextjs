@@ -10,6 +10,7 @@ const useHandlePrev = () => {
     const prevStep = () => {
         if(prev.flag) {
             dispatch(setActiveStep(activeStep - 1))
+            window.scrollTo({top: 0})
         }
     }
     return prevStep

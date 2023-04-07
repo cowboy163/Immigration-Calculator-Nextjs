@@ -2,22 +2,12 @@ import {Grid, InputLabel, Paper} from "@mui/material";
 import {StyledButton} from "@/views/beautiful/step2/education/education";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    changeSecondLangTest, changeSecondLangTestScore
+    changeSecondLangTest, changeSecondLangTestScore, setStoredSecondLang
 } from "@/features/beautifulSlice/step2Slice";
 import BeautifulTextField from "@/components/beautiful/textField";
-const options = [
-    {
-        text: "无",
-        value: "null",
-    },
-    {
-        text: '雅思',
-        value: 'ielts',
-    },
-    {
-        text: '思培',
-        value: 'celpip',
-    },
+import {useEffect, useState} from "react";
+import BeautifulError from "@/components/beautiful/error";
+const firstEngOptions = [
     {
         text: 'TEF',
         value: 'tef',
@@ -27,45 +17,83 @@ const options = [
         value: 'tcf',
     },
 ]
+const firstFrOptions = [
+    {
+        text: '雅思',
+        value: 'ielts',
+    },
+    {
+        text: '思培',
+        value: 'celpip',
+    },
+]
 const tests = ["阅读", "写作", "听力", "口语"]
 
-const SecondLang = () => {
+const SecondLang = ({register, errors, setValue}) => {
     const dispatch = useDispatch()
     const secondLang = useSelector(state => state.beautifulStep2.secondLang)
+    const firstLangTest = useSelector(state => state.beautifulStep2.firstLang.test)
 
     // test option
     const selectedValue = secondLang.test
     const handleClick = value => {
         dispatch(changeSecondLangTest(value))
+        errors.secondLangTest = undefined
     }
+
+    useEffect(() => {
+        setValue("secondLangTest", secondLang.test)
+    }, [secondLang.test])
 
     // test score
     const testScore = secondLang.testScore
     const handleChange = (value, index) => {
-        if(secondLang.test && secondLang.test !== "null") {
+        if(secondLang.test) {
             dispatch(changeSecondLangTestScore([value, index]))
         }
     }
+
+    // option state
+    const [options, setOptions] = useState(firstEngOptions)
+    useEffect(() => {
+        if(firstLangTest.charAt(0) === "t") {
+            setOptions(firstFrOptions)
+        } else {
+            setOptions(firstEngOptions)
+        }
+    }, [firstLangTest])
+
+    // store test scores
+    useEffect(() => {
+        dispatch(setStoredSecondLang())
+    }, [secondLang])
+
+    useEffect(() => {
+
+    }, [firstLangTest])
 
     return(
         <Paper elevation={3}
                style={{padding: "1rem", margin: "1rem 0"}}
         >
-            <InputLabel style={{color: "#1975d1", marginBottom: "0.1rem"}}>
+            <InputLabel style={{color: "#1975d1", marginBottom: "1rem"}}>
                 第二语言
             </InputLabel>
-            <p style={{marginBottom: "0.7rem"}}>如果您第一语言选择了英语考试，第二语言请选择法语考试，反之亦然</p>
 
             <Grid container
                   spacing={2}
                   marginBottom="0.5rem"
+                  className={errors.secondLangTest? 'Mui-error' : ''}
             >
+                <input type='hidden'
+                       {...register('secondLangTest', {required: '请选择一项考试'})}
+                />
                 {
                     options.map((option, index) => (
                         <Grid item
-                              xs={12}
-                              sm={2.4}
-                              md={2.4}
+                              xs={6}
+                              sm={6}
+                              md={6}
                               key={index}
                         >
                             <StyledButton variant={selectedValue === option.value? 'contained' : 'outlined'}
@@ -81,7 +109,7 @@ const SecondLang = () => {
                 }
             </Grid>
             {
-                tests.map((option, index) => (
+                secondLang.test && tests.map((option, index) => (
                     <Grid key={index}
                           container
                           spacing={0}
@@ -100,12 +128,16 @@ const SecondLang = () => {
                             <BeautifulTextField value={testScore[index]}
                                                 handleChange={evt => handleChange(evt.target.value, index)}
                                                 placeholder={secondLang.test === "null"? '0' : '输入分数'}
+                                                name={`secondLangTestScore${index}`}
+                                                error={!!errors[`secondLangTestScore${index}`]}
+                                                helperText={errors[`secondLangTestScore${index}`]?.message}
+                                                inputProps={{...register(`secondLangTestScore${index}`, {required:"分数不能为空"})}}
                             />
                         </Grid>
                     </Grid>
                 ))
             }
-
+            {errors.secondLangTest && <BeautifulError text={errors.secondLangTest.message}/>}
         </Paper>
     )
 }

@@ -3,11 +3,10 @@ import {StyledButton} from "@/views/beautiful/step2/education/education";
 import {useDispatch, useSelector} from "react-redux";
 import BeautifulTextField from "@/components/beautiful/textField";
 import {changeFirstLangTest, changeFirstLangTestScore} from "@/features/beautifulSlice/step3Slice";
+import {useEffect} from "react";
+import {setStoredFirstLang} from "@/features/beautifulSlice/step3Slice";
+import BeautifulError from "@/components/beautiful/error";
 const options = [
-    {
-        text: "无",
-        value: "null",
-    },
     {
         text: '雅思',
         value: 'ielts',
@@ -27,7 +26,7 @@ const options = [
 ]
 const tests = ["阅读", "写作", "听力", "口语"]
 
-const BeautifulLanguage = () => {
+const BeautifulLanguage = ({register, errors, setValue}) => {
     const dispatch = useDispatch()
     const firstLang = useSelector(state => state.beautifulStep3.firstLang)
 
@@ -35,15 +34,24 @@ const BeautifulLanguage = () => {
     const selectedValue = firstLang.test
     const handleClick = value => {
         dispatch(changeFirstLangTest(value))
+        errors.firstLangTest = undefined
     }
+
+    useEffect(() => {
+        setValue('firstLangTest', firstLang.test)
+    }, [firstLang.test])
 
     // test score
     const testScore = firstLang.testScore
     const handleChange = (value, index) => {
-        if(firstLang.test && firstLang.test !== "null") {
+        if(firstLang.test) {
             dispatch(changeFirstLangTestScore([value, index]))
         }
     }
+    // store test scores
+    useEffect(() => {
+        dispatch(setStoredFirstLang())
+    }, [firstLang])
 
     return(
         <Paper elevation={3}
@@ -57,13 +65,17 @@ const BeautifulLanguage = () => {
             <Grid container
                   spacing={2}
                   marginBottom="0.5rem"
+                  className={errors.firstLangTest? 'Mui-error' : ''}
             >
+                <input type='hidden'
+                       {...register('firstLangTest', {required: "请选择一项考试"})}
+                />
                 {
                     options.map((option, index) => (
                         <Grid item
                               xs={12}
-                              sm={2.4}
-                              md={2.4}
+                              sm={3}
+                              md={3}
                               key={index}
                         >
                             <StyledButton variant={selectedValue === option.value? 'contained' : 'outlined'}
@@ -79,7 +91,7 @@ const BeautifulLanguage = () => {
                 }
             </Grid>
             {
-                tests.map((option, index) => (
+                firstLang.test && tests.map((option, index) => (
                     <Grid key={index}
                           container
                           spacing={0}
@@ -98,12 +110,16 @@ const BeautifulLanguage = () => {
                             <BeautifulTextField value={testScore[index]}
                                                 handleChange={evt => handleChange(evt.target.value, index)}
                                                 placeholder={firstLang.test === "null"? '0' : '输入分数'}
+                                                name={`firstLangTestScore${index}`}
+                                                error={!!errors[`firstLangTestScore${index}`]}
+                                                helperText={errors[`firstLangTestScore${index}`]?.message}
+                                                inputProps={{...register(`firstLangTestScore${index}`,{required: "分数不能为空"})}}
                             />
                         </Grid>
                     </Grid>
                 ))
             }
-
+            {errors.firstLangTest && <BeautifulError text={errors.firstLangTest.message}/>}
         </Paper>
     )
 }

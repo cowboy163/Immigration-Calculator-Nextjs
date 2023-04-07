@@ -1,7 +1,7 @@
 import {Grid, InputLabel, Paper} from "@mui/material";
 import {StyledButton} from "@/views/beautiful/step2/education/education";
 import {useDispatch, useSelector} from "react-redux";
-import {changeFirstLangTest, changeFirstLangTestScore} from "@/features/beautifulSlice/step2Slice";
+import {changeFirstLangTest, changeFirstLangTestScore, setStoredFirstLang} from "@/features/beautifulSlice/step2Slice";
 import BeautifulTextField from "@/components/beautiful/textField";
 import BeautifulError from "@/components/beautiful/error";
 import {useEffect} from "react";
@@ -47,6 +47,11 @@ const FirstLang = ({register, errors, setValue}) => {
             dispatch(changeFirstLangTestScore([value, index]))
         }
     }
+    // store test scores
+    useEffect(() => {
+        dispatch(setStoredFirstLang())
+    }, [firstLang])
+
 
     return (
         <Paper elevation={3}
@@ -85,7 +90,7 @@ const FirstLang = ({register, errors, setValue}) => {
                 }
             </Grid>
             {
-                tests.map((option, index) => (
+                selectedValue && tests.map((option, index) => (
                     <Grid key={index}
                           container
                           spacing={0}
@@ -107,8 +112,7 @@ const FirstLang = ({register, errors, setValue}) => {
                                                 placeholder='输入分数'
                                                 error={!!errors[`firstLangTestScore${index}`]}
                                                 helperText={errors[`firstLangTestScore${index}`]?.message}
-                                                required='分数不能为空'
-                                                register={register}
+                                                inputProps={{...register(`firstLangTestScore${index}`,{required: "分数不能为空"})}}
                             />
                         </Grid>
                     </Grid>

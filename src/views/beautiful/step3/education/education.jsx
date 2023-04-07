@@ -1,6 +1,8 @@
 import {Button, Grid, InputLabel, Paper, styled} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {changeEducation} from "@/features/beautifulSlice/step3Slice";
+import {useEffect} from "react";
+import BeautifulError from "@/components/beautiful/error";
 
 const options = ["高中以下", "高中", "1年大专", "2年大专", "3年以上大专或本科", "双专业（3 + 1年以上）", "硕士学位或专业学位", "博士学位"]
 export const StyledButton = styled(Button)(({theme, selected}) => ({
@@ -18,12 +20,17 @@ export const StyledButton = styled(Button)(({theme, selected}) => ({
     },
 }))
 
-const BeautifulEducation = () => {
+const BeautifulEducation = ({register, setValue, errors}) => {
     const dispatch = useDispatch()
     const selectedValue = useSelector(state => state.beautifulStep3.education)
     const handleChange = value => {
         dispatch(changeEducation(String(value)))
+        errors.education = undefined
     }
+
+    useEffect(() => {
+        setValue('education', selectedValue)
+    }, [selectedValue])
 
     return (
         <Paper elevation={3}
@@ -32,9 +39,14 @@ const BeautifulEducation = () => {
             <InputLabel style={{color: "#1975d1", marginBottom: "0.5rem"}}>
                 配偶学历
             </InputLabel>
+            <br/>
             <Grid container
                   spacing={2}
+                  className={errors.education? 'Mui-error' : ''}
             >
+                <input type="hidden"
+                       {...register('education', {required: "请选择一个选项"})}
+                />
                 {
                     options.map((option, index) => (
                         <Grid item
@@ -55,6 +67,8 @@ const BeautifulEducation = () => {
                     )
                 }
             </Grid>
+            <br/>
+            {errors.education && <BeautifulError text={errors.education.message}/>}
         </Paper>
 
     )

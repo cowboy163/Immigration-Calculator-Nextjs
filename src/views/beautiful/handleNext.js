@@ -10,6 +10,7 @@ const useHandleNext = () => {
     const nextStep = () => {
         if(next.flag) {
             dispatch(setActiveStep(activeStep + 1))
+            window.scrollTo({top: 0})
         }
     }
     return nextStep

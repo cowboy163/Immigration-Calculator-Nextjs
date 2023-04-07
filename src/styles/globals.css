@@ -32,3 +32,37 @@ a {
 .centerText {
   text-align: center;
 }
+
+/*test*/
+.flippingNumber {
+  display: inline-block;
+  perspective: 1000px;
+}
+
+.flipper {
+  display: inline-block;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.flip {
+  display: inline-block;
+  position: absolute;
+  backface-visibility: hidden;
+  transition: transform 0.5s;
+}
+
+.flipOut {
+  transform: rotateX(90deg);
+}
+
+.flipIn {
+  transform: rotateX(-90deg);
+  animation: flip-in 0.5s forwards;
+}
+
+@keyframes flip-in {
+  to {
+    transform: rotateX(0);
+  }
+}
