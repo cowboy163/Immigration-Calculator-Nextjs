@@ -2,7 +2,7 @@ import csvToArray from "@/utility/csvToArray";
 import getNum from "@/utility/getNum";
 import getSumArray from "@/utility/getSumArray";
 
-const getLangTotalScore = (CLB, ruleLocation, spouse) => {
+const getLangTotalScore = (CLB, ruleLocation, spouse, eachScore) => {
     return csvToArray(ruleLocation)
         .then(data => {
             const rules = data.data
@@ -41,7 +41,7 @@ const getLangTotalScore = (CLB, ruleLocation, spouse) => {
                     }
                 })
             })
-            return getSumArray(score)
+            return eachScore? score : getSumArray(score)
         })
 }
 export default getLangTotalScore

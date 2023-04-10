@@ -10,6 +10,7 @@ import SecondLangChoice from "@/views/beautiful/step2/secondLang/secondLangChoic
 import {useSelector} from "react-redux";
 import useHandleNext from "@/views/beautiful/handleNext";
 import handleErrorSubmit from "@/views/beautiful/handleErrorSubmit";
+import ScorePad from "@/views/beautiful/scorePad";
 
 const Step2 = () => {
     const {

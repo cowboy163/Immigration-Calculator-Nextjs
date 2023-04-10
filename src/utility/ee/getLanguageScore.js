@@ -2,7 +2,7 @@ import getRuleLocation from "@/utility/getRuleLocation";
 import getCLB from "@/utility/getCLB";
 import getLangTotalScore from "@/utility/ee/getLangTotalScore";
 
-const getLanguageScore = (language, spouse, clbRule) => {
+const getLanguageScore = (language, spouse, clbRule, eachScore) => {
     if(language.test) {
         const dir = ['EE', 'language', language.test]
         const ruleLocation = getRuleLocation(dir)
@@ -19,7 +19,7 @@ const getLanguageScore = (language, spouse, clbRule) => {
                     clbRuleLocation = clbRule
                 }
 
-                return getLangTotalScore(CLB, clbRuleLocation, spouse)
+                return getLangTotalScore(CLB, clbRuleLocation, spouse, eachScore)
                     .then(score => {
                         return score
                     })

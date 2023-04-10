@@ -2,6 +2,9 @@ import {Grid, InputLabel, Paper} from "@mui/material";
 import {StyledButton} from "@/views/beautiful/step2/education/education";
 import {useDispatch, useSelector} from "react-redux";
 import {changeEducation} from "@/features/beautifulSlice/step4Slice";
+import {useEffect, useState} from "react";
+import {CaEducationScoreCalc} from "@/utility/beautiful/calculateScore";
+import ScorePad from "@/views/beautiful/scorePad";
 
 const options = [
     {
@@ -20,18 +23,31 @@ const options = [
 
 const BeautifulEducation = () => {
     const dispatch = useDispatch()
-    const selectedValue = useSelector(state => state.beautifulStep4.education)
+    const step4 = useSelector(state => state.beautifulStep4)
+    const [score, setScore] = useState("")
+    const selectedValue = step4.education
     const handleClick = value => {
         dispatch(changeEducation(value))
     }
+    // Canada education score
+    useEffect(() => {
+        CaEducationScoreCalc(step4)
+            .then(score => {
+                setScore(String(score))
+            })
+    }, [step4])
 
     return(
         <Paper elevation={3}
                style={{padding: "1rem", margin: "1rem 0"}}
         >
-            <InputLabel style={{color: "#1975d1", marginBottom: "0.1rem"}}>
-                加拿大学历
-            </InputLabel>
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                <InputLabel style={{color: "#1975d1", marginBottom: "0.1rem"}}
+                >
+                    加拿大学历
+                </InputLabel>
+                <ScorePad text={score} paddingRight="1rem"/>
+            </div>
 
             <Grid container
                   spacing={2}

@@ -1,0 +1,29 @@
+.scorePad {
+    position: relative;
+    float: left;
+    transition: all 1s;
+    height: 40px;
+    line-height: 40px;
+    transform-style: preserve-3d;
+    /*delete after*/
+    /*transform: rotateX(-20deg) rotateY(30deg)*/
+}
+
+.scorePad span{
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    text-align: center;
+}
+
+.scorePad .text {
+    backface-visibility: hidden;
+    transform: translateZ(20px);
+    background-color: green;
+}
+
+.scorePad .currentText {
+    transform: rotateX(90deg) translateZ(20px);
+    background-color: orange;
+}

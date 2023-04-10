@@ -4,7 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeFirstLangTest, changeFirstLangTestScore, setStoredFirstLang} from "@/features/beautifulSlice/step2Slice";
 import BeautifulTextField from "@/components/beautiful/textField";
 import BeautifulError from "@/components/beautiful/error";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {firstLangScoreCalc} from "@/utility/beautiful/calculateScore";
+import ScorePad from "@/views/beautiful/scorePad";
 
 const options = [
     {
@@ -28,7 +30,10 @@ const tests = ["阅读", "写作", "听力", "口语"]
 
 const FirstLang = ({register, errors, setValue}) => {
     const dispatch = useDispatch()
-    const firstLang = useSelector(state => state.beautifulStep2.firstLang)
+    const step1 = useSelector(state => state.beautifulStep1)
+    const step2 = useSelector(state => state.beautifulStep2)
+    const [score, setScore] = useState(["", "", "", ""])
+    const firstLang = step2.firstLang
 
     // test option
     const selectedValue = firstLang.test
@@ -51,6 +56,15 @@ const FirstLang = ({register, errors, setValue}) => {
     useEffect(() => {
         dispatch(setStoredFirstLang())
     }, [firstLang])
+
+    // each test score
+    useEffect(() => {
+        firstLangScoreCalc(step1, step2, true)
+            .then(score => {
+                let newArray = [score[1], score[2], score[0], score[3]]
+                setScore(newArray)
+            })
+    }, [step1, step2])
 
 
     return (
@@ -113,6 +127,7 @@ const FirstLang = ({register, errors, setValue}) => {
                                                 error={!!errors[`firstLangTestScore${index}`]}
                                                 helperText={errors[`firstLangTestScore${index}`]?.message}
                                                 inputProps={{...register(`firstLangTestScore${index}`,{required: "分数不能为空"})}}
+                                                inputAdornment={<ScorePad text={score[index]} takePlace={true}/>}
                             />
                         </Grid>
                     </Grid>

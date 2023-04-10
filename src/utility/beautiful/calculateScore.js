@@ -11,6 +11,182 @@ import specialCalcLine4 from "@/utility/ee/partC/specialCalcLine4";
 import specialCalcLine5 from "@/utility/ee/partC/specialCalcLine5";
 import getAdditionalScore from "@/utility/ee/partD/getAdditionalScore";
 
+const spouseCalc = (step1) => {
+    let spouse = "no"
+    if (step1 && step1.single === String(NOT_SINGLE)) {
+        spouse = "yes"
+    }
+    return spouse
+}
+
+export const ageScoreCalc = async (step1, step2) => {
+    let score = 0
+    const age = step2.age
+    const ageRuleLocation = 'csv/EE/age.csv'
+    const spouse = spouseCalc(step1)
+    if (age) {
+        score = await getAgeScore(age, ageRuleLocation, spouse)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const educationScoreCalc = async (step1, step2) => {
+    let score = 0
+    const educationRuleLocation = 'csv/EE/education.csv'
+    const education = step2.education
+    const spouse = spouseCalc(step1)
+    if(education) {
+        score = await getEducationScore(education, educationRuleLocation, spouse)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const firstLangScoreCalc = async (step1, step2, eachScore) => {
+    let score = 0
+    const spouse = spouseCalc(step1)
+    const clbRule = undefined
+    const firstLang = step2.firstLang
+    if (firstLang.test) {
+        score = await getLanguageScore(firstLang, spouse, clbRule, eachScore)
+            .then(score => {
+                return score
+            })
+    }
+    return score
+}
+
+export const secondLangScoreCalc = async (step1, step2, eachScore) => {
+    let score = 0
+    const spouse = spouseCalc(step1)
+    const secondLang = step2.secondLang
+    if (secondLang.test) {
+        const secondLangRuleLocation = '/csv/EE/secondLang.csv'
+        score = await getLanguageScore(secondLang, spouse, secondLangRuleLocation, eachScore)
+            .then(score => {
+                return score
+            })
+    }
+    return score
+}
+
+export const exInCaCalc = async (step1, step2) => {
+    let score = 0
+    const spouse = spouseCalc(step1)
+    const exInCA = +step2.exInCA > 5 ? 5 : step2.exInCA
+    const exInCaRuleLocation = '/csv/EE/experience/canadaExperience.csv'
+    if (+exInCA > 0) {
+        score = await getEducationScore(exInCA, exInCaRuleLocation, spouse)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const spEducationScoreCalc = async (step1, step3) => {
+    let score = 0
+    const spouse = spouseCalc(step1)
+    const spouseEducation = step3 && step3.education
+    const seRuleLocation = '/csv/EE/spouse/education.csv'
+    if(spouseEducation) {
+        score = await getEducationScore(spouseEducation, seRuleLocation, spouse)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const spLangScoreCalc = async (step1, step3, eachScore) => {
+    let score = []
+    const spouse = spouseCalc(step1)
+    const slRuleLocation = '/csv/EE/spouse/language.csv'
+    const spouseLang = step3.firstLang
+    if(spouseLang.test !== "null") {
+        score = await  getLanguageScore(spouseLang, spouse, slRuleLocation, eachScore)
+            .then(score => {
+                return score
+            })
+    }
+    return score
+}
+
+export const spExInCaScoreCalc = async (step1, step3) => {
+    let score = 0
+    const spouse = spouseCalc(step1)
+    const seInCA = +step3.exInCA > 5 ? 5 : step3.exInCA
+    const seInCaRuleLocation = '/csv/EE/spouse/experience.csv'
+    if (+seInCA > 0) {
+        score = await getEducationScore(seInCA, seInCaRuleLocation, spouse)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const pnpScoreCalc = async (step4) => {
+    let score = 0
+    if(step4.pnp && step4.pnp !== "no") {
+        const startIndex = 7
+        score = await getAdditionalScore(step4.pnp, startIndex)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const sponsorshipScoreCalc = async (step4) => {
+    let score = 0
+    if(step4.sponsorship && step4.sponsorship !== "2") {
+        const startIndex = 6
+        let sponsorship = "1"
+        if(step4.sponsorship === "0") {
+            sponsorship = "2"
+        }
+        score = await getAdditionalScore(sponsorship, startIndex)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const CaEducationScoreCalc = async (step4) => {
+    let score = 0
+    if(step4.education && step4.education !== "2") {
+        let education = "1"
+        if(step4.education === "0") {
+            education = "2"
+        }
+        const startIndex = 3
+        score = await getAdditionalScore(education, startIndex)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
+export const relativeScoreCalc = async (step4) => {
+    let score = 0
+    if(step4.relative === "yes") {
+        const startIndex = 0
+        score = await getAdditionalScore(step4.relative, startIndex)
+            .then(score => {
+                return +score
+            })
+    }
+    return score
+}
+
 const calculateScore = async (step1, step2, step3, step4) => {
     let totalScore = 0
 
@@ -55,7 +231,7 @@ const calculateScore = async (step1, step2, step3, step4) => {
 
     // applicant second language score
     const secondLang = step2.secondLang
-    if (secondLang.test !== 'null') {
+    if (secondLang.test) {
         const secondLangRuleLocation = '/csv/EE/secondLang.csv'
         totalScore += await getLanguageScore(secondLang, spouse, secondLangRuleLocation)
             .then(score => {
@@ -90,7 +266,7 @@ const calculateScore = async (step1, step2, step3, step4) => {
         // applicant's spouse language score
         const slRuleLocation = '/csv/EE/spouse/language.csv'
         const spouseLang = step3.firstLang
-        if(spouseLang.test !== "null") {
+        if(spouseLang.test) {
             totalScore += await  getLanguageScore(spouseLang, spouse, slRuleLocation)
                 .then(score => {
                     return +score

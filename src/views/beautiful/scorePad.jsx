@@ -1,23 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
+import TextTransition, {presets} from "react-text-transition";
 
-const ScorePad = ({ number }) => {
-    const [previousNumber, setPreviousNumber] = useState(null);
-    const [currentNumber, setCurrentNumber] = useState(number);
+const ScorePad = ({ text, paddingRight, takePlace }) => {
+    const index = 1
+    const [texts, setTexts] = useState(["0"])
+    const [newText, setNewText] = useState("")
 
     useEffect(() => {
-        setPreviousNumber(currentNumber);
+        let newScore = "0"
+        if(newText && newText !== "") {
+            newScore = newText
+        }
         setTimeout(() => {
-            setCurrentNumber(number);
-        }, 1000)
-    }, [number]);
+            setTexts(prevTexts => {
+                const updatedTexts = [...prevTexts, newScore]
+                return updatedTexts.slice(-2)
+            })
+        }, 100)
+
+    }, [newText])
+
+    useEffect(() => {
+        if(text && text.length === 1 && text !== "0" && takePlace) {
+            setNewText("0" + text)
+        } else {
+            setNewText(text)
+        }
+    }, [text])
 
     return (
-        <div className="flipping-number">
-            <div className="flipper">
-                <span className={`flip ${previousNumber !== null ? 'flip-out' : ''}`}>{previousNumber}</span>
-                <span className={`flip ${previousNumber !== null ? 'flip-in' : ''}`}>{currentNumber}</span>
-            </div>
-        </div>
+        <h5 style={{display: 'flex', color: "gray", paddingRight: paddingRight && paddingRight}}>
+            分数：
+            <TextTransition springConfig={presets.wobbly}
+            >{texts[index % texts.length]}</TextTransition>
+        </h5>
     );
 };
 

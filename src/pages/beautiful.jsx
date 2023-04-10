@@ -14,24 +14,7 @@ const Beautiful = () => {
     const dispatch = useDispatch()
     const activeStep = useSelector(state => state.beautifulStepper.activeStep)
     const length = useSelector(state => state.beautifulStepper.stepLength)
-    const validateStep = useBeautifulValidation(activeStep)
     const step1 = useSelector(state => state.beautifulStep1)
-    const step2 = useSelector(state => state.beautifulStep2)
-    const step3 = useSelector(state => state.beautifulStep3)
-    const step4 = useSelector(state => state.beautifulStep4)
-    const {pass, error} = validateStep()
-
-    const handleClick = () => {
-        if (activeStep < length - 1 && pass) {
-            // setActiveStep(activeStep + 1)
-            // window.scrollTo({top: 0, behavior: "smooth"})
-        } else if (!pass) {
-        } else if (pass && activeStep === length - 1) {
-            calculateScore(step1, step2, step3, step4)
-                .then(totalScore => {
-                })
-        }
-    }
 
     useEffect(() => {
         if (step1.single === String(SINGLE)) {

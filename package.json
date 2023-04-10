@@ -1,6 +1,6 @@
 {
   "name": "06-immigration-calculator-nextjs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -24,6 +24,7 @@
     "react-hook-form": "^7.43.9",
     "react-papaparse": "^4.1.0",
     "react-redux": "^8.0.5",
+    "react-text-transition": "^3.1.0",
     "styled-components": "^5.3.9"
   }
 }

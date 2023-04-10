@@ -2,14 +2,27 @@ import {InputAdornment, InputLabel, Paper, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {changeAge} from "@/features/beautifulSlice/step2Slice";
 import ScorePad from "@/views/beautiful/scorePad";
+import {useEffect, useState} from "react";
+import {ageScoreCalc} from "@/utility/beautiful/calculateScore";
 
 const BeautifulAge = ({register, errors}) => {
     const dispatch = useDispatch()
-    const value = useSelector(state => state.beautifulStep2.age)
+    const step1 = useSelector(state => state.beautifulStep1)
+    const step2 = useSelector(state => state.beautifulStep2)
+    const value = step2.age
+    const [score, setScore] = useState("")
 
     const handleChange = value => {
         dispatch(changeAge(value))
     }
+
+    // age score
+    useEffect(() => {
+        ageScoreCalc(step1, step2)
+            .then(score => {
+                setScore(String(score))
+            })
+    }, [step1, step2])
 
     return (
         <Paper elevation={3}
@@ -35,7 +48,7 @@ const BeautifulAge = ({register, errors}) => {
                                height: '2.2rem',
                                borderRadius: "0.3rem",
                            },
-                           endAdornment: <InputAdornment position="end"><ScorePad number={value}/></InputAdornment>,
+                           endAdornment: <InputAdornment position="end"><ScorePad text={score} paddingRight="0"/></InputAdornment>,
                        }}
                        placeholder='请输入您的年龄'
                        fullWidth={true}
