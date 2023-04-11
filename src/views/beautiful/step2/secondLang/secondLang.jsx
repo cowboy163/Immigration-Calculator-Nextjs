@@ -5,10 +5,11 @@ import {
     changeSecondLangTest, changeSecondLangTestScore, setStoredSecondLang
 } from "@/features/beautifulSlice/step2Slice";
 import BeautifulTextField from "@/components/beautiful/textField";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import BeautifulError from "@/components/beautiful/error";
 import {secondLangScoreCalc} from "@/utility/beautiful/calculateScore";
 import ScorePad from "@/views/beautiful/scorePad";
+import autoAnimate from "@formkit/auto-animate";
 const firstEngOptions = [
     {
         text: 'TEF',
@@ -82,9 +83,16 @@ const SecondLang = ({register, errors, setValue}) => {
             })
     }, [step1, step2])
 
+    // dropdown
+    const parent = useRef(null)
+    useEffect(() => {
+        parent.current && autoAnimate(parent.current)
+    }, [parent])
+
     return(
         <Paper elevation={3}
                style={{padding: "1rem", margin: "1rem 0"}}
+               ref={parent}
         >
             <InputLabel style={{color: "#1975d1", marginBottom: "1rem"}}>
                 第二语言

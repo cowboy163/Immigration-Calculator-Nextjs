@@ -4,9 +4,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeFirstLangTest, changeFirstLangTestScore, setStoredFirstLang} from "@/features/beautifulSlice/step2Slice";
 import BeautifulTextField from "@/components/beautiful/textField";
 import BeautifulError from "@/components/beautiful/error";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {firstLangScoreCalc} from "@/utility/beautiful/calculateScore";
 import ScorePad from "@/views/beautiful/scorePad";
+import autoAnimate from "@formkit/auto-animate";
 
 const options = [
     {
@@ -66,10 +67,17 @@ const FirstLang = ({register, errors, setValue}) => {
             })
     }, [step1, step2])
 
+    // dropdown
+    const parent = useRef(null)
+    useEffect(() => {
+        parent.current && autoAnimate(parent.current)
+    }, [parent])
+
 
     return (
         <Paper elevation={3}
                style={{padding: "1rem", margin: "1rem 0"}}
+               ref={parent}
         >
             <InputLabel style={{color: "#1975d1", marginBottom: "0.1rem"}}>
                 第一语言
@@ -104,7 +112,7 @@ const FirstLang = ({register, errors, setValue}) => {
                 }
             </Grid>
             {
-                selectedValue && tests.map((option, index) => (
+                firstLang.test && tests.map((option, index) => (
                     <Grid key={index}
                           container
                           spacing={0}

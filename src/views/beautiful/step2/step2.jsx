@@ -10,7 +10,8 @@ import SecondLangChoice from "@/views/beautiful/step2/secondLang/secondLangChoic
 import {useSelector} from "react-redux";
 import useHandleNext from "@/views/beautiful/handleNext";
 import handleErrorSubmit from "@/views/beautiful/handleErrorSubmit";
-import ScorePad from "@/views/beautiful/scorePad";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
+import {useEffect} from "react";
 
 const Step2 = () => {
     const {
@@ -25,6 +26,15 @@ const Step2 = () => {
     const onSubmit = () => {
         handleNext()
     }
+
+    // useAutoAnimate
+    const [parent, enableAnimations] = useAutoAnimate()
+    useEffect(() => {
+        if(secLangFlag) {
+            enableAnimations(true)
+        }
+    }, [secLangFlag])
+
     return (
         <section>
             <form onSubmit={handleSubmit(onSubmit, handleErrorSubmit)}>
@@ -46,15 +56,17 @@ const Step2 = () => {
                     errors={errors}
                     setValue={setValue}
                 />
-                <SecondLangChoice/>
-                {
-                    secLangFlag === "yes" &&
-                    <SecondLang
-                        register={register}
-                        errors={errors}
-                        setValue={setValue}
-                    />
-                }
+                <div ref={parent}>
+                    <SecondLangChoice/>
+                    {
+                        secLangFlag === "yes" &&
+                        <SecondLang
+                            register={register}
+                            errors={errors}
+                            setValue={setValue}
+                        />
+                    }
+                </div>
                 <BeautifulExperience/>
                 <BeautifulCertification/>
                 <BottomBtns/>

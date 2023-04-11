@@ -108,7 +108,7 @@ export const spLangScoreCalc = async (step1, step3, eachScore) => {
     const spouse = spouseCalc(step1)
     const slRuleLocation = '/csv/EE/spouse/language.csv'
     const spouseLang = step3.firstLang
-    if(spouseLang.test !== "null") {
+    if(spouseLang.test) {
         score = await  getLanguageScore(spouseLang, spouse, slRuleLocation, eachScore)
             .then(score => {
                 return score

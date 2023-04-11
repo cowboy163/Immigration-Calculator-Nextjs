@@ -7,6 +7,8 @@ import useHandleNext from "@/views/beautiful/handleNext";
 import handleErrorSubmit from "@/views/beautiful/handleErrorSubmit";
 import BottomBtns from "@/views/beautiful/bottomBtns";
 import FirstLangChoice from "@/views/beautiful/step3/language/firstLangChoice";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
+import {useEffect} from "react";
 
 
 const Step3 = () => {
@@ -23,6 +25,14 @@ const Step3 = () => {
         handleNext()
     }
 
+    // useAutoAnimate
+    const [parent, enableAnimations] = useAutoAnimate()
+    useEffect(() => {
+        if(langFlag) {
+            enableAnimations(true)
+        }
+    }, [langFlag])
+
     return (
         <section>
             <form onSubmit={handleSubmit(onSubmit, handleErrorSubmit)}>
@@ -35,16 +45,17 @@ const Step3 = () => {
                     errors={errors}
                     setValue={setValue}
                 />
-                <FirstLangChoice/>
-                {
-                    langFlag === "yes" &&
-                    <BeautifulLanguage
-                        register={register}
-                        errors={errors}
-                        setValue={setValue}
-                    />
-                }
-
+                <div ref={parent}>
+                    <FirstLangChoice/>
+                    {
+                        langFlag === "yes" &&
+                        <BeautifulLanguage
+                            register={register}
+                            errors={errors}
+                            setValue={setValue}
+                        />
+                    }
+                </div>
                 <BeautifulExperience/>
                 <BottomBtns/>
             </form>
